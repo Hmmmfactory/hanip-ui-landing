@@ -11,6 +11,23 @@ function ensureCanonical() { const existing = document.querySelector('link[rel="
 ensureCanonical();
 if (button && nav) { button.addEventListener('click', () => { const open = nav.classList.toggle('open'); button.setAttribute('aria-expanded', String(open)); button.textContent = open ? 'CLOSE −' : 'MENU +'; }); nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => { nav.classList.remove('open'); button.setAttribute('aria-expanded', 'false'); button.textContent = 'MENU +'; })); }
 if (replay) replay.addEventListener('click', () => { furniture.forEach((piece) => { piece.style.animation = 'none'; void piece.offsetWidth; piece.style.animation = ''; }); });
+const stayDaysNode = document.querySelector('[data-stay-days]');
+const stayCopyNode = document.querySelector('[data-stay-copy]');
+const stayUpdatedNode = document.querySelector('[data-stay-updated]');
+function updateStayDuration() {
+  if (!stayDaysNode || !stayCopyNode || !stayUpdatedNode) return;
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).filter(({ type }) => type !== 'literal').map(({ type, value }) => [type, value]));
+  const today = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
+  const started = Date.UTC(2026, 2, 20);
+  const days = Math.max(1, Math.floor((today - started) / 86400000) + 1);
+  const timestamp = `${parts.year}. ${parts.month}. ${parts.day}. ${parts.hour}:${parts.minute} KST`;
+  stayDaysNode.textContent = new Intl.NumberFormat('ko-KR').format(days);
+  stayCopyNode.textContent = `${days}일째 반지하에 살고 있습니다`;
+  stayUpdatedNode.dateTime = `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:00+09:00`;
+  stayUpdatedNode.textContent = `${timestamp} 기준`;
+}
+updateStayDuration();
+if (stayDaysNode) setInterval(updateStayDuration, 60000);
 const counterNodes = document.querySelectorAll('[data-counter]');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const formatCounter = (value, decimals) => new Intl.NumberFormat('ko-KR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
