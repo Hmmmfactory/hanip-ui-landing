@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>블로그 관리</title>
+<style>
+:root{
+  --a-bg:#f5f6f8; --a-panel:#ffffff; --a-ink:#22252a; --a-sub:#69707a;
+  --a-line:#e2e5ea; --a-brand:#2456d6; --a-danger:#c0392b; --a-ok:#1e7e46;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--a-bg);color:var(--a-ink);line-height:1.65;
+  font-family:system-ui,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  font-size:15px;min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:20px;font-weight:700;margin-bottom:4px}
+.sub{color:var(--a-sub);font-size:13px;margin-bottom:24px}
+.panel{background:var(--a-panel);border:1px solid var(--a-line);border-radius:12px;
+  padding:24px;margin-bottom:16px}
+.panel h2{font-size:16px;margin-bottom:14px}
+ol.guide{margin:0 0 18px 20px;font-size:14px;color:var(--a-ink)}
+ol.guide li{margin-bottom:8px}
+ol.guide code{background:var(--a-bg);border:1px solid var(--a-line);border-radius:4px;
+  padding:1px 6px;font-size:12.5px;word-break:break-all}
+.warn{background:#fdf3e7;border:1px solid #f0d9b8;color:#7a5215;border-radius:8px;
+  padding:12px 14px;font-size:13px;margin-bottom:18px}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+label small{font-weight:400;color:var(--a-sub)}
+input[type=text],input[type=password],input[type=date],textarea{
+  width:100%;border:1px solid var(--a-line);border-radius:8px;padding:10px 12px;
+  font-size:15px;font-family:inherit;background:#fff;color:var(--a-ink)}
+input:focus,textarea:focus{outline:2px solid color-mix(in srgb,var(--a-brand) 35%,transparent);
+  border-color:var(--a-brand)}
+textarea{min-height:260px;resize:vertical;line-height:1.7}
+.btn{display:inline-block;border:1px solid var(--a-line);background:#fff;color:var(--a-ink);
+  border-radius:8px;padding:9px 16px;font-size:14px;font-weight:600;cursor:pointer;
+  font-family:inherit}
+.btn:hover{background:var(--a-bg)}
+.btn.primary{background:var(--a-brand);border-color:var(--a-brand);color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.danger{color:var(--a-danger)}
+.btn.small{padding:5px 10px;font-size:12.5px;font-weight:500}
+.btn:disabled{opacity:.5;cursor:default}
+.row-actions{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.status{margin:14px 0 0;padding:11px 14px;border-radius:8px;font-size:13.5px;display:none}
+.status.show{display:block}
+.status.info{background:#eef3fd;color:#1d3f8f;border:1px solid #ccdaf6}
+.status.ok{background:#e9f6ee;color:var(--a-ok);border:1px solid #c4e5d1}
+.status.err{background:#fdeeec;color:var(--a-danger);border:1px solid #f2cdc7;white-space:pre-line}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+  flex-wrap:wrap;margin-bottom:20px}
+.repo-chip{font-size:12.5px;color:var(--a-sub);background:var(--a-panel);
+  border:1px solid var(--a-line);border-radius:999px;padding:4px 12px}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--a-line);
+  vertical-align:middle}
+th{font-size:12px;color:var(--a-sub);font-weight:600;letter-spacing:.03em}
+td.title-cell{font-weight:600;max-width:280px}
+td .date{color:var(--a-sub);font-size:13px;white-space:nowrap}
+td.ops{white-space:nowrap;text-align:right}
+.empty-row td{color:var(--a-sub);text-align:center;padding:32px 10px}
+.help{background:var(--a-bg);border:1px solid var(--a-line);border-radius:8px;
+  padding:10px 14px;font-size:12.5px;color:var(--a-sub);margin-top:8px;line-height:1.8}
+.help code{background:#fff;border:1px solid var(--a-line);border-radius:4px;padding:0 5px}
+.hidden{display:none}
+a.plain{color:var(--a-brand)}
+@media (max-width:520px){
+  .panel{padding:18px 14px}
+  td.title-cell{max-width:150px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>블로그 관리</h1>
+  <p class="sub">글을 쓰면 GitHub 저장소의 posts.json이 수정되고, Vercel이 자동으로 재배포합니다.</p>
+
+  <!-- ===== 연결 화면 ===== -->
+  <section id="view-connect" class="hidden">
+    <div class="panel">
+      <h2>1. GitHub 토큰 만들기</h2>
+      <ol class="guide">
+        <li><a class="plain" href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> 접속 → <strong>Generate new token</strong> 클릭</li>
+        <li><strong>Token name</strong>: 아무 이름(예: blog-admin), <strong>Expiration</strong>: 90 days</li>
+        <li><strong>Repository access</strong>: "Only select repositories" 선택 → 내 사이트 저장소만 체크</li>
+        <li><strong>Permissions → Repository permissions → Contents</strong>: <code>Read and write</code>로 변경</li>
+        <li>맨 아래 <strong>Generate token</strong> → 표시되는 <code>github_pat_...</code> 토큰을 복사 (이 화면을 벗어나면 다시 볼 수 없어요)</li>
+      </ol>
+      <div class="warn">토큰은 이 브라우저의 localStorage에 <strong>평문으로 저장</strong>됩니다. 반드시 <strong>본인 기기·본인 브라우저에서만</strong> 사용하고, 공용 PC에서는 쓰지 마세요.</div>
+    </div>
+    <div class="panel">
+      <h2>2. 연결 정보 입력</h2>
+      <form id="connect-form">
+        <label>GitHub 토큰</label>
+        <input type="password" id="c-token" placeholder="github_pat_..." autocomplete="off" required>
+        <label>저장소 <small>(owner/repo 형식, 예: hong-gildong/my-brand-site)</small></label>
+        <input type="text" id="c-repo" placeholder="내아이디/저장소이름" autocomplete="off" required>
+        <label>브랜치 <small>(보통 그대로 두면 됩니다)</small></label>
+        <input type="text" id="c-branch" value="main" autocomplete="off">
+        <label>posts.json 경로 <small>(보통 그대로 두면 됩니다)</small></label>
+        <input type="text" id="c-path" value="story/posts.json" autocomplete="off">
+        <div class="row-actions">
+          <button type="submit" class="btn primary">연결하기</button>
+        </div>
+      </form>
+      <div id="connect-status" class="status"></div>
+    </div>
+  </section>
+
+  <!-- ===== 목록 화면 ===== -->
+  <section id="view-list" class="hidden">
+    <div class="topbar">
+      <span class="repo-chip" id="repo-chip"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn small" href="../index.html" id="open-blog">내 블로그 열기</a>
+        <button class="btn small" id="btn-reload">새로고침</button>
+        <button class="btn small danger" id="btn-disconnect">연결 해제</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <h2 style="margin:0">글 목록</h2>
+        <button class="btn primary" id="btn-new">새 글 쓰기</button>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>제목</th><th>날짜</th><th style="text-align:right">관리</th></tr></thead>
+          <tbody id="post-rows"></tbody>
+        </table>
+      </div>
+      <div id="list-status" class="status"></div>
+    </div>
+  </section>
+
+  <!-- ===== 편집 화면 ===== -->
+  <section id="view-edit" class="hidden">
+    <div class="panel">
+      <h2 id="edit-heading">새 글 쓰기</h2>
+      <form id="edit-form">
+        <label>제목</label>
+        <input type="text" id="f-title" required>
+        <label>날짜</label>
+        <input type="date" id="f-date" required>
+        <label>요약 <small>(목록 카드에 보이는 한두 문장)</small></label>
+        <input type="text" id="f-summary">
+        <label>태그 <small>(콤마로 구분, 예: 브랜드, 신제품)</small></label>
+        <input type="text" id="f-tags">
+        <label>본문</label>
+        <textarea id="f-body" required></textarea>
+        <label>작성자 <small>(검색·AI 신뢰 신호. 예: 홍길동 · ○○ 대표)</small></label>
+        <input type="text" id="f-author">
+        <label>FAQ <small>(선택. 한 줄에 하나, <code>질문 | 답</code> 형식 — 글 끝에 접이식으로 붙고 FAQ 구조화 데이터가 됩니다)</small></label>
+        <textarea id="f-faq" rows="3" placeholder="무기자차는 왜 하얗게 뜨나요? | 산화아연·이산화티탄 입자가 빛을 반사해서입니다. 얇게 여러 번 펴 바르면 줄어듭니다."></textarea>
+        <label>참고·출처 <small>(선택. 한 줄에 하나, <code>제목 | URL</code> 형식)</small></label>
+        <textarea id="f-sources" rows="2" placeholder="식약처 기능성화장품 안내 | https://..."></textarea>
+        <div class="help">
+          본문 작성 규칙 (이것만 지원해요)<br>
+          &bull; 문단 나누기: 빈 줄 한 줄<br>
+          &bull; 소제목: 줄 맨 앞에 <code>## </code><br>
+          &bull; 목록: 줄 맨 앞에 <code>- </code>
+        </div>
+        <div class="row-actions">
+          <button type="submit" class="btn primary" id="btn-save">저장</button>
+          <button type="button" class="btn" id="btn-cancel">취소</button>
+        </div>
+      </form>
+      <div id="edit-status" class="status"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var LS_KEY = 'blogAdminConfig';
+  var API = 'https://api.github.com';
+  var config = null;      // {token, repo, branch, path}
+  var posts = [];         // 현재 posts 배열
+  var currentSha = null;  // posts.json의 현재 sha
+  var editingId = null;   // 수정 중인 글 id (새 글이면 null)
+
+  // ---------- 유틸 ----------
+  function $(id){ return document.getElementById(id); }
+  function show(id){ ['view-connect','view-list','view-edit'].forEach(function(v){
+    $(v).classList.toggle('hidden', v !== id); }); window.scrollTo(0,0); }
+  function setStatus(id, type, msg){
+    var n = $(id);
+    n.className = 'status show ' + type;
+    n.textContent = msg;
+  }
+  function clearStatus(id){ $(id).className = 'status'; $(id).textContent=''; }
+
+  // 유니코드 안전 base64
+  function b64encode(str){
+    var bytes = new TextEncoder().encode(str), bin = '';
+    for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  }
+  function b64decode(b64){
+    var bin = atob(b64.replace(/\s/g,'')), bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+
+  function slugify(title){
+    var s = String(title).toLowerCase()
+      .replace(/[^a-z0-9가-힣]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40);
+    return (s || 'post') + '-' + Date.now().toString(36);
+  }
+
+  function today(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' +
+      String(d.getDate()).padStart(2,'0');
+  }
+
+  // ---------- GitHub API ----------
+  function gh(method, urlPath, body){
+    return fetch(API + urlPath, {
+      method: method,
+      headers: {
+        'Authorization': 'Bearer ' + config.token,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      },
+      body: body ? JSON.stringify(body) : undefined
+    });
+  }
+
+  function contentsPath(){
+    return '/repos/' + config.repo + '/contents/' +
+      config.path.split('/').map(encodeURIComponent).join('/');
+  }
+
+  function friendlyError(status, detail){
+    if (status === 401) return '토큰이 올바르지 않거나 만료되었습니다. 연결 해제 후 새 토큰으로 다시 연결해 주세요.';
+    if (status === 403) return '권한이 없습니다. 토큰의 Repository access에 이 저장소가 포함되어 있고, Contents 권한이 Read and write인지 확인해 주세요.';
+    if (status === 404) return '파일을 찾을 수 없습니다. 저장소 이름(owner/repo), 브랜치, posts.json 경로를 확인해 주세요.';
+    return 'GitHub 오류 (' + status + ')' + (detail ? '\n' + detail : '');
+  }
+
+  function loadPosts(){
+    return gh('GET', contentsPath() + '?ref=' + encodeURIComponent(config.branch))
+      .then(function(r){
+        if (!r.ok) return r.json().catch(function(){return {};}).then(function(j){
+          throw new Error(friendlyError(r.status, j.message));
+        });
+        return r.json();
+      })
+      .then(function(j){
+        currentSha = j.sha;
+        var parsed;
+        try { parsed = JSON.parse(b64decode(j.content)); }
+        catch(e){ throw new Error('posts.json 파싱에 실패했습니다. 파일이 올바른 JSON인지 확인해 주세요.'); }
+        posts = Array.isArray(parsed) ? parsed : [];
+        return posts;
+      });
+  }
+
+  // newPosts 저장. 409/sha 불일치 시 1회 재로드 후 재시도.
+  function savePosts(newPosts, message, isRetry){
+    var body = {
+      message: message,
+      content: b64encode(JSON.stringify(newPosts, null, 2) + '\n'),
+      sha: currentSha,
+      branch: config.branch
+    };
+    return gh('PUT', contentsPath(), body).then(function(r){
+      if (r.ok) return r.json().then(function(j){
+        currentSha = j.content && j.content.sha;
+        posts = newPosts;
+      });
+      return r.json().catch(function(){return {};}).then(function(j){
+        var conflict = r.status === 409 ||
+          (r.status === 422 && /sha/i.test(j.message || ''));
+        if (conflict && !isRetry){
+          // 원격이 먼저 바뀜: 재로드 후 1회 재시도 (내 변경을 최신 상태 위에 다시 적용해야 하므로
+          // 여기서는 sha만 새로 받아 같은 내용으로 재시도)
+          return loadPosts().then(function(){
+            return savePosts(newPosts, message, true);
+          });
+        }
+        throw new Error(friendlyError(r.status, j.message));
+      });
+    });
+  }
+
+  // ---------- 화면: 연결 ----------
+  $('connect-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var repo = $('c-repo').value.trim().replace(/^https?:\/\/github\.com\//,'').replace(/\/+$/,'');
+    var cfg = {
+      token: $('c-token').value.trim(),
+      repo: repo,
+      branch: $('c-branch').value.trim() || 'main',
+      path: $('c-path').value.trim().replace(/^\/+/,'') || 'story/posts.json'
+    };
+    if (!/^[^\/\s]+\/[^\/\s]+$/.test(cfg.repo)){
+      setStatus('connect-status','err','저장소는 owner/repo 형식으로 입력해 주세요. (예: hong-gildong/my-site)');
+      return;
+    }
+    config = cfg;
+    setStatus('connect-status','info','연결 확인 중...');
+    loadPosts().then(function(){
+      localStorage.setItem(LS_KEY, JSON.stringify(cfg));
+      clearStatus('connect-status');
+      renderList();
+      show('view-list');
+    }).catch(function(err){
+      config = null;
+      setStatus('connect-status','err', err.message);
+    });
+  });
+
+  // ---------- 화면: 목록 ----------
+  function renderList(){
+    $('repo-chip').textContent = config.repo + ' · ' + config.branch + ' · ' + config.path;
+    var tbody = $('post-rows');
+    tbody.textContent = '';
+    var sorted = posts.slice().sort(function(a,b){
+      return String(b.date||'').localeCompare(String(a.date||''));
+    });
+    if (sorted.length === 0){
+      var tr = document.createElement('tr');
+      tr.className = 'empty-row';
+      var td = document.createElement('td');
+      td.colSpan = 3;
+      td.textContent = '아직 글이 없습니다. 첫 글을 써보세요.';
+      tr.appendChild(td);
+      tbody.appendChild(tr);
+      return;
+    }
+    sorted.forEach(function(p){
+      var tr = document.createElement('tr');
+      var tdT = document.createElement('td');
+      tdT.className = 'title-cell';
+      tdT.textContent = String(p.title || '(제목 없음)');
+      var tdD = document.createElement('td');
+      var span = document.createElement('span');
+      span.className = 'date';
+      span.textContent = String(p.date || '');
+      tdD.appendChild(span);
+      var tdO = document.createElement('td');
+      tdO.className = 'ops';
+      var bE = document.createElement('button');
+      bE.className = 'btn small'; bE.type = 'button'; bE.textContent = '수정';
+      bE.addEventListener('click', function(){ openEdit(p.id); });
+      var bD = document.createElement('button');
+      bD.className = 'btn small danger'; bD.type = 'button'; bD.textContent = '삭제';
+      bD.style.marginLeft = '6px';
+      bD.addEventListener('click', function(){ removePost(p); });
+      tdO.appendChild(bE); tdO.appendChild(bD);
+      tr.appendChild(tdT); tr.appendChild(tdD); tr.appendChild(tdO);
+      tbody.appendChild(tr);
+    });
+  }
+
+  $('btn-reload').addEventListener('click', function(){
+    setStatus('list-status','info','불러오는 중...');
+    loadPosts().then(function(){ clearStatus('list-status'); renderList(); })
+      .catch(function(err){ setStatus('list-status','err', err.message); });
+  });
+
+  $('btn-disconnect').addEventListener('click', function(){
+    if (!confirm('연결을 해제할까요? 저장된 토큰과 설정이 이 브라우저에서 삭제됩니다.')) return;
+    localStorage.removeItem(LS_KEY);
+    config = null; posts = []; currentSha = null;
+    $('c-token').value = '';
+    show('view-connect');
+  });
+
+  function removePost(p){
+    if (!confirm('"' + String(p.title||'') + '" 글을 삭제할까요? 되돌릴 수 없습니다.')) return;
+    var newPosts = posts.filter(function(x){ return x.id !== p.id; });
+    setStatus('list-status','info','삭제하는 중...');
+    savePosts(newPosts, 'post: 삭제 - ' + String(p.title||p.id))
+      .then(function(){
+        renderList();
+        setStatus('list-status','ok','삭제 완료 — Vercel이 1~2분 안에 자동 재배포합니다.');
+      })
+      .catch(function(err){ setStatus('list-status','err', err.message); });
+  }
+
+  // ---------- 화면: 편집 ----------
+  function openEdit(id){
+    editingId = id || null;
+    clearStatus('edit-status');
+    var p = null;
+    if (id) posts.forEach(function(x){ if (x.id === id) p = x; });
+    $('edit-heading').textContent = p ? '글 수정' : '새 글 쓰기';
+    $('f-title').value = p ? String(p.title||'') : '';
+    $('f-date').value = p ? String(p.date||today()) : today();
+    $('f-summary').value = p ? String(p.summary||'') : '';
+    $('f-tags').value = p && Array.isArray(p.tags) ? p.tags.join(', ') : '';
+    $('f-body').value = p ? String(p.body||'') : '';
+    $('f-author').value = p ? String(p.author||'') : (localStorage.getItem('blog-author') || '');
+    $('f-faq').value = p && Array.isArray(p.faq) ? p.faq.map(function(f){ return (f.q||'') + ' | ' + (f.a||''); }).join('\n') : '';
+    $('f-sources').value = p && Array.isArray(p.sources) ? p.sources.map(function(s){ return (s.title||'') + (s.url ? ' | ' + s.url : ''); }).join('\n') : '';
+    show('view-edit');
+  }
+
+  $('btn-new').addEventListener('click', function(){ openEdit(null); });
+  $('btn-cancel').addEventListener('click', function(){ show('view-list'); });
+
+  $('edit-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var title = $('f-title').value.trim();
+    var prev = null;
+    if (editingId) posts.forEach(function(x){ if (x.id === editingId) prev = x; });
+    function pairs(text, k1, k2){
+      return text.split('\n').map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){
+        var i = l.indexOf('|'); var o = {};
+        o[k1] = (i < 0 ? l : l.slice(0, i)).trim();
+        if (i >= 0 && l.slice(i+1).trim()) o[k2] = l.slice(i+1).trim();
+        return o;
+      });
+    }
+    var author = $('f-author').value.trim();
+    if (author) localStorage.setItem('blog-author', author);
+    var faq = pairs($('f-faq').value, 'q', 'a').filter(function(f){ return f.q && f.a; });
+    var sources = pairs($('f-sources').value, 'title', 'url');
+    // 이 폼에 없는 필드(url·description·updated 등)는 그대로 보존합니다.
+    var post = Object.assign({}, prev || {}, {
+      id: editingId || slugify(title),
+      title: title,
+      date: $('f-date').value || today(),
+      summary: $('f-summary').value.trim(),
+      tags: $('f-tags').value.split(',').map(function(s){return s.trim();}).filter(Boolean),
+      body: $('f-body').value.replace(/\r\n/g,'\n').trim()
+    });
+    if (author) post.author = author; else delete post.author;
+    if (faq.length) post.faq = faq; else delete post.faq;
+    if (sources.length) post.sources = sources; else delete post.sources;
+    if (prev && prev.body !== post.body) post.updated = today();
+    var newPosts;
+    if (editingId){
+      newPosts = posts.map(function(x){ return x.id === editingId ? post : x; });
+    } else {
+      newPosts = posts.concat([post]);
+    }
+    var btn = $('btn-save');
+    btn.disabled = true;
+    setStatus('edit-status','info','저장하는 중...');
+    savePosts(newPosts, 'post: ' + title)
+      .then(function(){
+        btn.disabled = false;
+        renderList();
+        show('view-list');
+        setStatus('list-status','ok','저장 완료 — Vercel이 1~2분 안에 자동 재배포합니다. 위의 "내 블로그 열기"로 확인해 보세요.');
+      })
+      .catch(function(err){
+        btn.disabled = false;
+        setStatus('edit-status','err', err.message);
+      });
+  });
+
+  // ---------- 시작 ----------
+  (function init(){
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); } catch(e){}
+    if (saved && saved.token && saved.repo){
+      config = saved;
+      show('view-list');
+      $('repo-chip').textContent = config.repo;
+      setStatus('list-status','info','글 목록을 불러오는 중...');
+      loadPosts().then(function(){ clearStatus('list-status'); renderList(); })
+        .catch(function(err){ setStatus('list-status','err', err.message); renderList(); });
+    } else {
+      show('view-connect');
+    }
+  })();
+})();
+</script>
+</body>
+</html>

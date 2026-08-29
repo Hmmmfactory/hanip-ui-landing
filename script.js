@@ -9,3 +9,23 @@ function productCard(product, index) { const card = document.createElement('arti
 async function renderProducts() { const homeList = document.querySelector('[data-home-products]') || document.querySelector('.items .item-list'); const productList = document.querySelector('[data-products-list]'); if (!homeList && !productList) return; try { const response = await fetch('products.json'); if (!response.ok) throw new Error('제품 데이터를 불러오지 못했습니다.'); const data = await response.json(); const products = Array.isArray(data.products) ? data.products : []; const render = (target, list) => target.replaceChildren(...list.map(productCard)); if (homeList) render(homeList, products.slice(0, 3)); if (productList) render(productList, products); } catch (error) { [homeList, productList].filter(Boolean).forEach((target) => { target.textContent = '제품 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'; }); } }
 document.querySelectorAll('.nav a[href="#items"], .nav a[href="index.html#items"]').forEach((link) => { link.href = 'products.html'; });
 renderProducts();
+document.querySelectorAll('.nav a[href="#stories"]').forEach((link) => { link.href = 'story/'; });
+document.querySelectorAll('.stories .underline-link').forEach((link) => { link.href = 'story/'; });
+
+async function renderLatestStories() {
+  const list = document.querySelector('.stories .story-list');
+  if (!list) return;
+  try {
+    const response = await fetch('story/posts.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('이야기를 불러오지 못했습니다.');
+    const posts = await response.json();
+    const latest = Array.isArray(posts) ? posts.slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))).slice(0, 3) : [];
+    const dateText = (value) => { const date = new Date(value + 'T00:00:00'); return isNaN(date) ? value : `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`; };
+    const cards = latest.map((post, index) => { const link = document.createElement('a'); link.href = post.url || `story/post.html?id=${encodeURIComponent(post.id || '')}`; const number = document.createElement('span'); number.className = 'story-index'; number.textContent = String(index + 1).padStart(2, '0'); const date = document.createElement('span'); date.className = 'story-date'; date.textContent = dateText(post.date || ''); const title = document.createElement('strong'); title.textContent = post.title || '제목 없음'; const arrow = document.createElement('span'); arrow.textContent = '↗'; link.append(number, date, title, arrow); return link; });
+    list.replaceChildren(...cards);
+    document.querySelectorAll('.nav a[href="#stories"]').forEach((link) => { link.href = 'story/'; });
+    document.querySelectorAll('.stories .underline-link').forEach((link) => { link.href = 'story/'; });
+  } catch (error) { list.textContent = '이야기를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.'; }
+}
+
+renderLatestStories();
