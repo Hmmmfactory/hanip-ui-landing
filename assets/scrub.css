@@ -1,0 +1,101 @@
+/* ==========================================================================
+   영상 스크럽판 부품 키트 — scrub.css
+   실행DAY 2026-08-29 · https://runday.irumai.kr/260829/kit/scrub/
+
+   내 사이트에 맞게 바꿀 것은 아래 변수뿐입니다.
+   클래스가 전부 rd-scrub 로 시작해서 내 CSS 와 겹치지 않습니다.
+   ========================================================================== */
+:root {
+  --scrub-ink:     #ffffff;                       /* 영상 위 글자색 */
+  --scrub-dim:     rgba(255,255,255,.72);         /* 보조 문장 · 킥커 */
+  --scrub-bg:      #0e0b08;                       /* 영상 로드 전 바탕 · 스크림 색 */
+  --scrub-scrim:   .55;                           /* 어두운 막 세기 0(없음)~1 */
+  --scrub-font:    inherit;                       /* 제목 서체 (예: "Noto Serif KR", serif) */
+  --scrub-title:   clamp(32px, 7vw, 68px);        /* 제목 크기 */
+  --scrub-pad:     clamp(20px, 6vw, 72px);        /* 좌우 여백 */
+  --scrub-align:   left;                          /* left | center (문구 정렬) */
+  --scrub-justify: start;                         /* start | center (문구 덩어리 위치) */
+  --scrub-accent:  #ffffff;                       /* 버튼 바탕 */
+  --scrub-accent-ink: #111111;                    /* 버튼 글자 */
+}
+
+.rd-scrub { position: relative; background: var(--scrub-bg); color: var(--scrub-ink); }
+.rd-scrub__stage { position: relative; height: 100svh; min-height: 480px; overflow: hidden; }
+.rd-scrub--live .rd-scrub__stage { position: sticky; top: 0; }
+
+/* 영상 · 포스터 */
+.rd-scrub__media { position: absolute; inset: 0; }
+.rd-scrub__poster, .rd-scrub__video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%;
+}
+.rd-scrub__video { opacity: 0; transition: opacity .5s ease; }
+.rd-scrub--has-video .rd-scrub__video { opacity: 1; }
+.rd-scrub--video-failed .rd-scrub__video { display: none; }
+
+/* 어두운 막 — 글자가 읽히게 */
+.rd-scrub__scrim {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,calc(var(--scrub-scrim) * .7)) 0%, rgba(0,0,0,0) 30%,
+                            rgba(0,0,0,0) 55%, rgba(0,0,0,var(--scrub-scrim)) 100%);
+}
+
+/* 문구 */
+.rd-scrub__copy {
+  position: absolute; inset: 0; display: grid; align-items: end;
+  padding: 0 var(--scrub-pad) clamp(56px, 12vh, 120px); text-align: var(--scrub-align); justify-items: var(--scrub-justify);
+}
+.rd-scrub__band {
+  grid-area: 1 / 1; max-width: min(100%, 44rem); word-break: keep-all; opacity: 0; transform: translateY(18px);
+  transition: opacity .6s ease, transform .6s ease; pointer-events: none;
+}
+.rd-scrub__band.on { opacity: 1; transform: none; pointer-events: auto; }
+.rd-scrub__kicker {
+  display: block; font-size: 11px; font-weight: 700; letter-spacing: .28em; color: var(--scrub-dim); margin-bottom: 14px;
+}
+.rd-scrub__band h1, .rd-scrub__band h2 {
+  margin: 0; font-family: var(--scrub-font); font-size: var(--scrub-title); line-height: 1.12;
+  letter-spacing: -.02em; font-weight: 700; color: var(--scrub-ink); max-width: 14ch;
+  text-shadow: 0 2px 24px rgba(0,0,0,.25);
+}
+.rd-scrub__band p { margin: 16px 0 0; font-size: clamp(15px, 1.6vw, 18px); line-height: 1.7; color: var(--scrub-dim); max-width: 34ch; }
+.rd-scrub__btn {
+  display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; margin-top: 24px; margin-right: 8px;
+  border-radius: 999px; background: var(--scrub-accent); color: var(--scrub-accent-ink);
+  font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.rd-scrub__btn--ghost { background: transparent; color: var(--scrub-ink); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.6); }
+
+/* 스크롤 유도 · 진행 바 */
+.rd-scrub__cue {
+  position: absolute; right: var(--scrub-pad); bottom: 28px; display: flex; align-items: center; gap: 10px;
+  font-size: 10px; letter-spacing: .3em; color: var(--scrub-dim); opacity: var(--cue, 1); transition: opacity .4s;
+}
+.rd-scrub__cue i { width: 1px; height: 36px; background: currentColor; transform-origin: top; animation: rd-scrub-cue 1.6s ease-in-out infinite; }
+@keyframes rd-scrub-cue { 0%,100% { transform: scaleY(.3); opacity: .4 } 50% { transform: scaleY(1); opacity: 1 } }
+.rd-scrub__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(255,255,255,.15); }
+.rd-scrub__progress i { display: block; height: 100%; width: 100%; background: var(--scrub-ink); transform: scaleX(var(--p, 0)); transform-origin: left; }
+.rd-scrub--static .rd-scrub__cue, .rd-scrub--static .rd-scrub__progress { display: none; }
+
+/* 정적 폴백 — 모션 축소 설정 · JS 없음: 문구를 전부 차례로 보여줍니다 */
+.rd-scrub--static .rd-scrub__copy,
+.rd-scrub:not(.rd-scrub--live) .rd-scrub__copy { display: flex; flex-direction: column; gap: 36px; justify-content: end; }
+.rd-scrub--static .rd-scrub__band,
+.rd-scrub:not(.rd-scrub--live) .rd-scrub__band { opacity: 1; transform: none; pointer-events: auto; }
+.rd-scrub--static .rd-scrub__stage,
+.rd-scrub:not(.rd-scrub--live) .rd-scrub__stage { height: auto; min-height: 100svh; }
+.rd-scrub--static .rd-scrub__copy,
+.rd-scrub:not(.rd-scrub--live) .rd-scrub__copy { position: relative; padding-top: 30vh; }
+
+/* JS 가 아예 안 돌았을 때(문구가 아직 section 바로 아래에 있을 때) — 그래도 읽히게 */
+.rd-scrub > .rd-scrub__band { opacity: 1; transform: none; pointer-events: auto; padding: 0 var(--scrub-pad); max-width: 100%; }
+.rd-scrub > .rd-scrub__band:first-child { padding-top: 30vh; }
+.rd-scrub > .rd-scrub__band:last-child { padding-bottom: 12vh; }
+
+@media (max-width: 880px) {
+  .rd-scrub__band { max-width: 100%; }
+  .rd-scrub__copy { padding-bottom: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rd-scrub__cue i { animation: none; }
+}

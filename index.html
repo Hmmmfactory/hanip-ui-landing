@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="architect.css">
+  <link rel="stylesheet" href="assets/scrub.css">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"B01호","url":"https://runday0829.vercel.app/","description":"5평 반지하에서 실제로 써보고 살아남은 물건과 방법을 기록하는 사이트.","email":"heum.factory@gmail.com","sameAs":["https://www.instagram.com/growup.b01/?utm_source=ig_web_button_share_sheet"]},{"@type":"WebSite","name":"B01호","url":"https://runday0829.vercel.app/","description":"5평 반지하 생활 기록"}]}
   </script>
@@ -23,15 +25,16 @@
     <nav class="nav" aria-label="주요 메뉴"><a href="about.html">내 소개</a><a href="#items">구매한 제품</a><a href="#stories">이야기</a><a href="#contact">연락하기</a></nav>
   </header>
   <main id="main">
-    <section class="hero" id="home">
-      <div class="hero-copy"><p class="code">B01 / BASEMENT / 16.5 m²</p><h1>작은 방에서<br>끝까지 <em>남은 것들.</em></h1><p>5평 반지하에서 직접 사고, 놓아보고, 몇 계절을 함께 보낸 물건들을 기록합니다. 예쁜 이유보다 <strong>살아남은 이유</strong>를 씁니다.</p><a class="underline-link" href="#items">물건 기록 보러가기 <span>↓</span></a></div>
-      <div class="room-wrap">
-        <div class="room-caption"><span class="record-dot"></span> RECORDING / 00:14 <button class="play-button" type="button" aria-label="방 채우기 영상 다시 재생">↻ REPLAY</button></div>
-        <div class="room-stage" aria-label="빈 공간에 침대, 테이블, 선반이 채워지는 방 기록 애니메이션">
-          <div class="ceiling"></div><div class="wall"><span class="wall-mark mark-one">B01</span><span class="wall-mark mark-two">+0.00</span></div><div class="floor"></div>
-          <div class="measurement measure-width"><i></i><span>3,180 mm</span><i></i></div><div class="measurement measure-height"><i></i><span>2,160 mm</span><i></i></div><div class="window"><span>BASEMENT<br>WINDOW</span></div>
-          <div class="furniture shelf"><span>01<br>선반</span><b></b><b></b><b></b></div><div class="furniture bed"><span>02 / 970 × 2,000</span><b></b></div><div class="furniture desk"><span>03<br>책상</span><b></b><b></b></div><div class="furniture chair"></div><div class="door-line"></div>
-        </div><p class="room-note">실제 방 배치 기록 / 가구가 순서대로 들어옵니다.</p>
+    <section class="rd-scrub" id="home" data-clip="assets/hero-scrub.mp4" data-clip-m="assets/hero-scrub-m.mp4" data-poster="assets/hero-poster.jpg" data-poster-m="assets/hero-poster-m.jpg" data-scroll="3">
+      <div class="rd-scrub__band" data-a="0" data-b="0.45">
+        <span class="rd-scrub__kicker">B01호</span>
+        <h1>작은 방에서<br>끝까지 남은 것들.</h1>
+        <p>5평 반지하에서 직접 사고, 놓아보고, 몇 계절을 함께 보낸 물건들을 기록합니다. 예쁜 이유보다 살아남은 이유를 씁니다.</p>
+      </div>
+      <div class="rd-scrub__band" data-a="0.5" data-b="1">
+        <h2>빈 공간을<br>실제로 쓴 물건으로 채웁니다.</h2>
+        <p>5평 반지하에서 실제로 써보고 살아남은 물건을 소개합니다.</p>
+        <a class="rd-scrub__btn" href="products.html">구매한 제품 보기</a>
       </div>
     </section>
     <section class="facts" aria-label="공간 정보"><div><span>ROOM</span><strong>16.5</strong><small>m² / 약 5평</small></div><div><span>CEILING</span><strong>2,160</strong><small>mm</small></div><div><span>WINDOW</span><strong>1</strong><small>개 / 북향</small></div><div><span>LAST UPDATED</span><strong>2026.08</strong><small>살아본 지 14개월</small></div></section>
@@ -45,6 +48,6 @@
     <section class="stories section" id="stories"><div class="section-top"><p class="section-label">03 — 이야기</p><a class="underline-link" href="#contact">모든 기록 보기 <span>↗</span></a></div><div class="story-list"><a href="#contact"><span class="story-index">01</span><span class="story-date">2026. 08. 21</span><strong>반지하의 여름, 습도 72%에서 살아남는 법</strong><span>↗</span></a><a href="#contact"><span class="story-index">02</span><span class="story-date">2026. 07. 02</span><strong>침대 옆 30cm를 비워두면 생기는 일</strong><span>↗</span></a><a href="#contact"><span class="story-index">03</span><span class="story-date">2026. 05. 16</span><strong>방의 크기를 처음부터 다시 재게 된 날</strong><span>↗</span></a></div></section>
     <section class="contact" id="contact"><p class="section-label">04 — 연락하기</p><h2>이 방에서<br>먼저 <em>써 볼게요.</em></h2><p>물건이나 기록에 관해 궁금한 점이 있다면 적어 보내주세요.</p><a class="mail" href="mailto:hello@b01room.kr">hello@b01room.kr <span>↗</span></a></section>
   </main>
-  <footer><a class="brand" href="#home">B01호<span>.</span></a><p>© B01 ROOM LOG. ALL ITEMS WERE PURCHASED BY ME.</p><a href="#home">TOP ↑</a></footer><script src="script.js"></script>
+  <footer><a class="brand" href="#home">B01호<span>.</span></a><p>© B01 ROOM LOG. ALL ITEMS WERE PURCHASED BY ME.</p><a href="#home">TOP ↑</a></footer><script src="assets/scrub.js" defer></script><script src="script.js"></script>
 </body>
 </html>

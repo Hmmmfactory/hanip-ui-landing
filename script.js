@@ -1,3 +1,4 @@
+if (!document.querySelector('link[href$="architect.css"]')) { const sheet = document.createElement('link'); sheet.rel = 'stylesheet'; sheet.href = location.pathname.includes('/story/') ? '../architect.css' : 'architect.css'; document.head.append(sheet); }
 const button = document.querySelector('.menu-button');
 const nav = document.querySelector('.nav');
 const replay = document.querySelector('.play-button');
