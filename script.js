@@ -29,3 +29,17 @@ async function renderLatestStories() {
 }
 
 renderLatestStories();
+
+const contactHref = location.pathname.includes('/story/') ? '../contact.html' : 'contact.html';
+document.querySelectorAll('.nav a[href="#contact"], .nav a[href="index.html#contact"]').forEach((link) => { link.href = contactHref; });
+
+document.querySelectorAll('footer').forEach((footer) => {
+  if (footer.querySelector('.footer-contact')) return;
+  const links = document.createElement('div');
+  links.className = 'footer-contact';
+  links.style.cssText = 'display:flex;gap:1rem;font:.56rem var(--mono)';
+  const email = document.createElement('a'); email.href = 'mailto:heum.factory@gmail.com'; email.target = '_blank'; email.rel = 'noopener noreferrer'; email.textContent = 'EMAIL'; email.style.borderBottom = '1px solid currentColor';
+  const instagram = document.createElement('a'); instagram.href = 'https://www.instagram.com/growup.b01/?utm_source=ig_web_button_share_sheet'; instagram.target = '_blank'; instagram.rel = 'noopener noreferrer'; instagram.textContent = 'INSTAGRAM'; instagram.style.borderBottom = '1px solid currentColor';
+  links.append(email, instagram);
+  footer.append(links);
+});
