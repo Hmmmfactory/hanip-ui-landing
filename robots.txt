@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /story/admin.html
+
+Sitemap: https://runday0829.vercel.app/sitemap.xml
