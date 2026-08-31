@@ -11,7 +11,15 @@ module.exports = (req, res) => {
     schedule: {
       draftDelivery: '매일 07:30 Asia/Seoul',
       conditionalPublish: '매일 10:00 Asia/Seoul',
-      minimumEditorialScore: Number(process.env.AUTOPUBLISH_SCORE_THRESHOLD || 90)
+      minimumEditorialScore: Number(process.env.AUTOPUBLISH_SCORE_THRESHOLD || 90),
+      manualApprovalEnabled: String(process.env.EDITORIAL_APPROVAL_ENABLED).toLowerCase() === 'true',
+      conditionalPublishEnabled: String(process.env.EDITORIAL_AUTOPUBLISH).toLowerCase() === 'true'
+    },
+    endpoints: {
+      githubWebhook: '/api/github/editorial',
+      testDraft: '/api/editorial/test',
+      scheduledDraft: '/api/cron/draft',
+      conditionalPublish: '/api/cron/publish'
     }
   });
 };
