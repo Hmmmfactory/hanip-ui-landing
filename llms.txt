@@ -4,6 +4,10 @@
 
 B01호는 작은 공간의 생활을 기록합니다. 제품이나 방법은 실제 치수, 직접 확인한 정보, 시간을 두고 사용한 경험을 중심으로 소개합니다. 확인하지 않은 리뷰·별점·재고·효능 정보는 제공하지 않습니다.
 
+## 파는 것
+
+B01호가 직접 구매해 작은 공간에서 확인한 인테리어·생활 제품을 소개합니다.
+
 ## 주요 페이지
 
 - [홈](https://runday0829.vercel.app/): B01호의 공간 기록과 최신 이야기
@@ -12,10 +16,10 @@ B01호는 작은 공간의 생활을 기록합니다. 제품이나 방법은 실
 - [이야기](https://runday0829.vercel.app/story/): 작은 공간과 물건에 관한 기록 및 FAQ
 - [연락하기](https://runday0829.vercel.app/contact.html): 이메일, 인스타그램, 스토어 링크
 
-## 제품
+## 이야기(블로그)
 
-현재 제품 목록은 `https://runday0829.vercel.app/products.json`에서 제공합니다. 제품 데이터에는 이름, 가격, 이미지 주소, 구매 링크가 포함됩니다.
-
-## 콘텐츠 안내
-
-블로그 글은 `https://runday0829.vercel.app/story/posts.json`에서 제공합니다. 각 글에는 제목, 날짜, 요약, 본문, 태그, 선택적으로 FAQ가 포함됩니다.
+- [신발장 폭은 어떻게 재면 되나요?](https://runday0829.vercel.app/story/measure-shoe-cabinet-width.html): 좁은 현관에서 신발장을 고르기 전, 벽면과 문이 열리는 자리, 실제 통로를 순서대로 재는 방법입니다.
+- [내 것이 없어서, 시작해봤습니다](https://runday0829.vercel.app/story/b01-start.html): 본가의 방을 둘러보던 날, 독립을 결심하고 B01호에서 기록을 시작하게 된 이유입니다.
+- [좁은 공간이라도 잘 꾸미고 싶었어요](https://runday0829.vercel.app/story/small-room-decoration.html): 물건을 더 들이기 전에, 방에서 꼭 필요한 자리부터 다시 보는 B01호의 기준입니다.
+- [한 뼘 크기의 슬림한 신발장을 찾았어요](https://runday0829.vercel.app/story/narrow-entry-shoe-cabinet.html): 현관 폭을 막지 않으면서 신발을 정리하려고, 신발장 앞에 필요한 공간부터 생각해 봤습니다.
+- [저렴해보이는 물건을 들이고 싶지 않았어요](https://runday0829.vercel.app/story/ikea-drawer-look-better.html): 특정 서랍장의 품질보다, 작은 방 안에서 서랍장이 맡을 일을 먼저 정하는 방법을 적었습니다.
