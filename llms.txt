@@ -17,6 +17,7 @@ B01호가 직접 구매해 작은 공간에서 확인한 인테리어·생활 �
 - [연락하기](https://runday0829.vercel.app/contact.html): 이메일, 인스타그램, 스토어 링크
 
 ## 이야기(블로그)
+- [자취방 가구 사기 전 꼭 재야 할 치수는 무엇인가요?](https://runday0829.vercel.app/story/what-dimensions-to-measure-before-buying-furniture.html): 좁은 자취방에서 가구를 들이기 전에는 벽의 ‘실사용 폭’, 문이 움직이는 범위, 가구 앞의 여유 공간 등 동선을 기준으로 치수를 재는 것이 중요합니다.
 
 - [신발장 폭은 어떻게 재면 되나요?](https://runday0829.vercel.app/story/measure-shoe-cabinet-width.html): 좁은 현관에서 신발장을 고르기 전, 벽면과 문이 열리는 자리, 실제 통로를 순서대로 재는 방법입니다.
 - [내 것이 없어서, 시작해봤습니다](https://runday0829.vercel.app/story/b01-start.html): 본가의 방을 둘러보던 날, 독립을 결심하고 B01호에서 기록을 시작하게 된 이유입니다.
