@@ -51,7 +51,8 @@ async function createDraft(topic) {
   const selectedTopic = topic || nextIdea || '작은 공간에서 가구를 고르기 전에 확인할 기준은 무엇인가요?';
   const recentPosts = (() => { try { return JSON.stringify(JSON.parse(contextFiles[2]).slice(0, 3)); } catch (_) { return '[]'; } })();
   const prompt = `You write factual Korean blog drafts for B01호, a 5-pyeong semi-basement home living record. Topic: ${selectedTopic}. Use only facts present in BRAND CONTEXT and RECENT POSTS. Never invent a first-person experience, measurement, statistic, product result, testimonial, or source. If the context cannot support a claim, omit it. Return ONLY valid JSON with title (Korean question ending in ?, <=60 chars), slug (lowercase hyphenated English), summary, description (80-150 Korean chars), tags (array), body (1200-1800 Korean characters; answer directly in the first 2-3 sentences; paragraphs separated by blank lines; 3-5 ## headings; include a list when explaining criteria; end with one real profile/follow CTA), faq (exactly 3 {q,a}), sources (at least one real {title,url}).\n\nBRAND CONTEXT:\n${contextFiles[0]}\n\nRECENT POSTS:\n${recentPosts}`;
-  const response = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5-mini', input: prompt }) });
+  const openaiKey = String(process.env.OPENAI_API_KEY || '').trim();
+  const response = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { Authorization: `Bearer ${openaiKey}`, 'content-type': 'application/json' }, body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5-mini', input: prompt }) });
   const data = await response.json();
   if (!response.ok) throw new Error(data.error && data.error.message ? data.error.message : 'OpenAI draft request failed.');
   const text = data.output_text || (data.output || []).flatMap((x) => x.content || []).map((x) => x.text || '').join('');
@@ -122,7 +123,8 @@ async function reviseDraft(number, instruction) {
   if (index < 0) throw new Error('PR에서 초안 데이터를 찾지 못했습니다.');
   const old = posts[index];
   const prompt = `Revise this Korean blog draft according to the editor request. Keep slug, date, author and all factual claims conservative. Return ONLY valid JSON with title, summary, description, tags, body, faq, sources. Preserve SEO constraints: title <=60 chars, description 80-150 Korean chars, body >=1000 Korean chars with 3-5 ## headings, exactly 3 FAQ, at least one real source. Do not invent statistics, testimonials, product performance, or citations.\n\nEDITOR REQUEST: ${instruction}\n\nDRAFT:\n${JSON.stringify(old)}`;
-  const response = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, 'content-type': 'application/json' }, body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5-mini', input: prompt }) });
+  const openaiKey = String(process.env.OPENAI_API_KEY || '').trim();
+  const response = await fetch('https://api.openai.com/v1/responses', { method: 'POST', headers: { Authorization: `Bearer ${openaiKey}`, 'content-type': 'application/json' }, body: JSON.stringify({ model: process.env.OPENAI_MODEL || 'gpt-5-mini', input: prompt }) });
   const data = await response.json(); if (!response.ok) throw new Error(data.error && data.error.message ? data.error.message : 'OpenAI revision failed.');
   const text = data.output_text || (data.output || []).flatMap((x) => x.content || []).map((x) => x.text || '').join('');
   const changed = JSON.parse(text.replace(/^```json\s*|\s*```$/g, ''));

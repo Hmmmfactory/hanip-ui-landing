@@ -7,11 +7,12 @@ function repo() {
 }
 
 async function github(path, options = {}) {
+  const token = String(process.env.GITHUB_TOKEN || '').trim();
   const response = await fetch(`${API}/repos/${repo()}${path}`, {
     ...options,
     headers: {
       Accept: 'application/vnd.github+json',
-      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+      Authorization: `Bearer ${token}`,
       'X-GitHub-Api-Version': '2022-11-28',
       ...(options.body ? { 'content-type': 'application/json' } : {}),
       ...options.headers

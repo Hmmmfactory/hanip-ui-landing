@@ -16,17 +16,17 @@ function configuredEnvironment() {
 }
 
 function isCronRequest(req) {
-  const expected = process.env.CRON_SECRET;
+  const expected = String(process.env.CRON_SECRET || '').trim();
   return Boolean(expected) && req.headers.authorization === `Bearer ${expected}`;
 }
 
 function isTelegramRequest(req) {
-  const expected = process.env.TELEGRAM_WEBHOOK_SECRET;
+  const expected = String(process.env.TELEGRAM_WEBHOOK_SECRET || '').trim();
   return Boolean(expected) && req.headers['x-telegram-bot-api-secret-token'] === expected;
 }
 
 function verifyGitHubSignature(rawBody, signature) {
-  const secret = process.env.GITHUB_WEBHOOK_SECRET;
+  const secret = String(process.env.GITHUB_WEBHOOK_SECRET || '').trim();
   if (!secret || !rawBody || typeof signature !== 'string') return false;
   const crypto = require('crypto');
   const expected = `sha256=${crypto.createHmac('sha256', secret).update(rawBody).digest('hex')}`;
@@ -36,7 +36,7 @@ function verifyGitHubSignature(rawBody, signature) {
 }
 
 async function telegram(method, payload) {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const token = String(process.env.TELEGRAM_BOT_TOKEN || '').trim();
   if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not configured.');
 
   const response = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
