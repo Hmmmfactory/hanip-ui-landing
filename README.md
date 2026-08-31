@@ -15,12 +15,7 @@
 `.env.example`의 값을 등록한 뒤 새 배포를 만듭니다.
 
 1. `https://runday0829.vercel.app/api/automation-status`를 열어 `configured`가 모두 `true`인지 확인합니다.
-2. 로컬 터미널에서 아래 명령으로 Telegram 웹훅을 등록합니다. `CRON_SECRET` 값은 터미널에서만 입력하고 공유하지 마세요.
-
-   ```sh
-   curl -X POST https://runday0829.vercel.app/api/telegram/setup \
-     -H "Authorization: Bearer $CRON_SECRET"
-   ```
+2. 브라우저에서 `/automation-setup.html`을 열고 `CRON_SECRET`을 입력해 **Telegram 연결하기**를 누릅니다. 입력값은 저장되지 않습니다.
 
 3. Telegram에서 봇을 열고 `/start`를 보냅니다. 봇이 보내는 숫자를 Vercel의 `TELEGRAM_ADMIN_CHAT_ID`에 등록하고 Redeploy합니다.
 4. 다시 `/status`를 보내면 연결 확인 메시지가 옵니다.
