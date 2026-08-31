@@ -1,6 +1,6 @@
-const { verifyGitHubSignature } = require('../lib/automation');
-const { reviewEditorialPr, attachPreviewDeployment } = require('../lib/editorial');
-const { repo } = require('../lib/github');
+const { verifyGitHubSignature } = require('../../server/automation');
+const { reviewEditorialPr, attachPreviewDeployment } = require('../../server/editorial');
+const { repo } = require('../../server/github');
 
 async function readRawBody(req) {
   if (Buffer.isBuffer(req.body)) return req.body;

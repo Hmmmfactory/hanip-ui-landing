@@ -1,4 +1,4 @@
-const { configuredEnvironment } = require('./lib/automation');
+const { configuredEnvironment } = require('../server/automation');
 
 module.exports = (req, res) => {
   const configured = configuredEnvironment();

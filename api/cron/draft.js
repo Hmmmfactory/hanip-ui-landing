@@ -1,5 +1,5 @@
-const { isCronRequest } = require('../lib/automation');
-const { createDraftPr } = require('../lib/editorial');
+const { isCronRequest } = require('../../server/automation');
+const { createDraftPr } = require('../../server/editorial');
 
 module.exports = async (req, res) => {
   if (!['GET', 'POST'].includes(req.method)) return res.status(405).json({ error: 'GET or POST only' });

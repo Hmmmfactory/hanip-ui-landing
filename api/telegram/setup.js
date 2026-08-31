@@ -1,4 +1,4 @@
-const { isCronRequest, telegram } = require('../lib/automation');
+const { isCronRequest, telegram } = require('../../server/automation');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });

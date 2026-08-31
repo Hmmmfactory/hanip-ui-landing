@@ -1,5 +1,5 @@
-const { isTelegramRequest, reply, telegram } = require('./lib/automation');
-const { approveAndMerge, reviseDraft, holdEditorialPr, recheckEditorialPr } = require('./lib/editorial');
+const { isTelegramRequest, reply, telegram } = require('../server/automation');
+const { approveAndMerge, reviseDraft, holdEditorialPr, recheckEditorialPr } = require('../server/editorial');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();

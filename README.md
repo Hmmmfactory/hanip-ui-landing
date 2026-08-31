@@ -37,9 +37,9 @@ GitHub 저장소의 **Settings → Webhooks → Add webhook**에서 다음 값�
 
 검수 코드는 역할별로 분리되어 있습니다.
 
-- `api/lib/editorial-audit.js`: HTML·메타·JSON-LD·링크·발행 파일의 재현 가능한 규칙 검사
-- `api/lib/editorial-score.js`: OpenAI 품질 점수와 감점 근거 생성
-- `api/lib/editorial-report.js`: Telegram 검토 보고서와 버튼 생성
+- `server/editorial-audit.js`: HTML·메타·JSON-LD·링크·발행 파일의 재현 가능한 규칙 검사
+- `server/editorial-score.js`: OpenAI 품질 점수와 감점 근거 생성
+- `server/editorial-report.js`: Telegram 검토 보고서와 버튼 생성
 - `api/github/editorial.js`: GitHub Webhook 수신·서명 검증
 
 Hard Gate는 AI 판단이 아니라 서버 코드가 검사합니다: 정적 HTML 존재, `posts.json` URL, title·description·canonical, BlogPosting·FAQPage·BreadcrumbList JSON-LD 파싱과 필수 속성, sitemap·RSS·llms.txt, 내부 링크 대상 파일, 작성자·날짜·FAQ 표시, 출처 없는 수치·효능 표현입니다. 한 항목이라도 실패하면 AI 점수와 관계없이 병합할 수 없습니다.
