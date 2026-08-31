@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="터미널 없이 브라우저와 Codex로 Telegram 편집장 자동발행을 연결하는 실행DAY 설정 킷입니다.">
+  <title>실행DAY — 편집장 자동발행 킷</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="kit.css">
+</head>
+<body>
+  <a class="skip" href="#steps">설정 단계로 건너뛰기</a>
+  <header class="topbar"><a href="../../index.html" class="brand">실행DAY<span>·</span> KIT</a><p>Browser-first editorial automation</p><a href="#start" class="top-link">시작하기 ↓</a></header>
+
+  <main>
+    <section class="hero" id="start">
+      <p class="eyebrow">대표님이 직접 여는 편집장 루틴</p>
+      <h1>아침엔 검토하고,<br><em>늦으면 기준이 발행합니다.</em></h1>
+      <div class="hero-bottom"><p>터미널 없이. 브라우저와 Codex만으로 Telegram 검토, 채팅 수정, 10시 조건부 자동발행까지 연결합니다.</p><a class="start-button" href="#steps">설정 시작 <span>↓</span></a></div>
+      <div class="time-strip" aria-label="자동발행 하루 흐름"><div><b>07:30</b><span>초안 도착</span></div><div><b>채팅</b><span>검토·수정</span></div><div><b>10:00</b><span>조건부 발행</span></div></div>
+    </section>
+
+    <section class="rules">
+      <p class="eyebrow">먼저 지킬 두 가지</p>
+      <div class="rule-grid"><p><b>키는 대표님만 입력합니다.</b> Codex 채팅, 프롬프트, GitHub 파일에는 API 키나 토큰을 붙이지 않습니다.</p><p><b>발행은 늘 되돌릴 수 있게.</b> 초안은 검토용 PR로 만들고, 점수와 필수 검수를 통과할 때만 조건부 발행합니다.</p></div>
+    </section>
+
+    <section class="steps" id="steps">
+      <div class="section-title"><p class="eyebrow">6단계 · 약 20분</p><h2>지금 할 일만<br>한 칸씩 끝내세요.</h2></div>
+
+      <article class="step" id="step-1" data-step="1">
+        <div class="step-rail"><span>01</span><i></i></div>
+        <div class="step-main"><p class="step-kicker">브라우저 준비</p><h3>Codex에게 Chrome을 보여주세요.</h3><p class="lead">ChatGPT 또는 Codex에서 브라우저 공유를 켜면, 화면을 보며 다음 버튼을 안내받을 수 있습니다. 로그인과 비밀값 입력은 대표님이 직접 합니다.</p><div class="do"><b>지금 할 일</b><span>Codex 설정에서 Computer use를 켜고 Chrome 확장을 연결하세요.</span></div><div class="prompt"><div><span>Codex에 붙여넣기</span><button class="copy" data-copy="prompt-1">복사</button></div><pre id="prompt-1">내 브랜드 블로그에 Telegram 편집장 자동발행을 설정하려고 해. Chrome 브라우저를 보며 단계별로 한 번에 하나씩만 안내해줘. GitHub·Vercel·Telegram 화면을 열고 필요한 버튼 위치를 설명해줘. API 키, 토큰, 비밀값은 절대 채팅에 묻거나 입력하지 말고 내가 직접 입력할 수 있게만 안내해줘. 설정이 끝날 때마다 성공 여부를 확인하고 다음 단계로 넘어가줘.</pre></div><label class="done"><input type="checkbox"><span>Chrome 공유를 연결했어요</span></label></div>
+      </article>
+
+      <article class="step" id="step-2" data-step="2">
+        <div class="step-rail"><span>02</span><i></i></div>
+        <div class="step-main"><p class="step-kicker">GitHub</p><h3>자동화 전용 권한 하나만 만듭니다.</h3><p class="lead">자동화는 매일 초안 브랜치와 검토 PR을 만듭니다. 권한은 내 사이트 저장소 하나에만 제한합니다.</p><div class="setting-list"><div><b>Repository access</b><span>Only select repositories → 내 사이트 저장소 1개</span></div><div><b>Permissions</b><span>Contents: Read and write · Pull requests: Read and write</span></div><div><b>Token name</b><span>Editorial Automation</span></div></div><a class="plain-link" href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub 토큰 만들기 ↗</a><label class="done"><input type="checkbox"><span>저장소 하나로 제한한 토큰을 만들었어요</span></label></div>
+      </article>
+
+      <article class="step" id="step-3" data-step="3">
+        <div class="step-rail"><span>03</span><i></i></div>
+        <div class="step-main"><p class="step-kicker">Telegram + Vercel</p><h3>키는 Vercel에만 보관합니다.</h3><p class="lead">BotFather에서 만든 Telegram 봇과 OpenAI API 키, GitHub 토큰은 모두 Vercel Production 환경변수에 넣습니다. 코드·채팅·노션에는 적지 않습니다.</p><div class="key-grid"><code>GITHUB_TOKEN</code><code>TELEGRAM_BOT_TOKEN</code><code>OPENAI_API_KEY</code><code>CRON_SECRET</code><code>TELEGRAM_WEBHOOK_SECRET</code><code>TELEGRAM_ADMIN_CHAT_ID</code></div><div class="notice"><b>주의</b> <span><code>CRON_SECRET</code>과 <code>TELEGRAM_WEBHOOK_SECRET</code>은 서로 다른 영문·숫자 조합으로 만드세요. Telegram 웹훅 비밀값에는 특수문자를 쓰지 않습니다.</span></div><label class="done"><input type="checkbox"><span>키를 Vercel Production에만 등록했어요</span></label></div>
+      </article>
+
+      <article class="step" id="step-4" data-step="4">
+        <div class="step-rail"><span>04</span><i></i></div>
+        <div class="step-main"><p class="step-kicker">연결</p><h3>브라우저 버튼으로 봇을 연결합니다.</h3><p class="lead">설치된 자동화에는 비밀값을 저장하지 않는 연결 페이지를 둡니다. 대표님은 그 페이지에서 <code>CRON_SECRET</code>을 한 번 입력하고 Telegram 연결만 누릅니다.</p><div class="do"><b>성공 기준</b><span>“연결되었습니다. 이제 Telegram에서 봇에게 /start를 보내세요.”가 보입니다.</span></div><div class="prompt"><div><span>Codex에 붙여넣기</span><button class="copy" data-copy="prompt-4">복사</button></div><pre id="prompt-4">지금 내 배포 사이트에 Telegram 연결 페이지가 있는지 확인해줘. 없다면 비밀값을 저장하지 않는 연결 페이지와 웹훅 API를 만들어줘. 페이지에서 CRON_SECRET을 입력해 Telegram 웹훅을 한 번만 등록할 수 있게 하고, 입력값·토큰·API 키는 화면이나 로그에 절대 노출하지 마. 연결 후에는 Telegram /start로 관리자 Chat ID를 안내하고, 그 숫자를 Vercel의 TELEGRAM_ADMIN_CHAT_ID에 넣도록 한 단계씩 알려줘.</pre></div><label class="done"><input type="checkbox"><span>봇에게 /start를 보내 관리자 연결을 마쳤어요</span></label></div>
+      </article>
+
+      <article class="step" id="step-5" data-step="5">
+        <div class="step-rail"><span>05</span><i></i></div>
+        <div class="step-main"><p class="step-kicker">편집장 규칙</p><h3>점수보다 먼저, 발행 금지 조건을 정합니다.</h3><p class="lead">좋은 글이라도 사실·SEO·배포 조건 중 하나가 틀리면 자동 발행하지 않습니다. 점수는 통과선일 뿐입니다.</p><div class="score-card"><div><span>자동발행 기준</span><b>90<span>/100</span></b></div><ul><li>출처 없는 수치·효능·후기 없음</li><li>정적 글·메타·FAQ·sitemap 갱신 완료</li><li>내부 링크와 미리보기 배포 확인</li><li>브랜드만의 실제 경험 문장 포함</li></ul></div><div class="prompt"><div><span>Codex에 붙여넣기</span><button class="copy" data-copy="prompt-5">복사</button></div><pre id="prompt-5">이 블로그에 편집장 검수 단계를 추가해줘. 매일 07:30 한국시간에 초안을 Telegram으로 보내고, 내가 채팅으로 “도입부를 짧게”, “이 문단 삭제”처럼 수정 요청하면 같은 초안을 수정해 미리보기 링크와 점수를 다시 보내줘. 내가 10:00까지 확인하지 않으면 90점 이상이면서 모든 발행 금지 조건을 통과한 경우에만 발행해줘. 점수가 높아도 출처 없는 사실 주장, 정적 HTML·메타·sitemap·RSS·llms.txt 누락, 링크 오류, 미리보기 배포 실패가 있으면 절대 발행하지 마. 모든 초안은 먼저 검토용 PR로 만들고, 사람이 승인하면 바로 발행할 수 있게 해줘.</pre></div><label class="done"><input type="checkbox"><span>07:30 / 10:00 / 90점 기준을 확인했어요</span></label></div>
+      </article>
+
+      <article class="step last" id="step-6" data-step="6">
+        <div class="step-rail"><span>06</span></div>
+        <div class="step-main"><p class="step-kicker">첫 테스트</p><h3>가짜 초안으로 한 번만 끝까지 해봅니다.</h3><p class="lead">첫날에는 실제 자동발행을 기다리지 않습니다. 테스트 초안을 보내고, 수정·점수·보류·발행 버튼이 전부 보이는지 확인합니다.</p><ol class="test-list"><li>Telegram에서 <code>/status</code>를 보내 연결 응답 확인</li><li>테스트 초안 발송 요청 → 미리보기 링크 열기</li><li>“제목을 10자 줄여줘”라고 채팅 수정 요청</li><li>점수와 발행 금지 조건 확인 → 보류로 끝내기</li></ol><div class="prompt"><div><span>Codex에 붙여넣기</span><button class="copy" data-copy="prompt-6">복사</button></div><pre id="prompt-6">실제 발행은 하지 말고 Telegram 편집장 시스템을 테스트해줘. 테스트 초안 하나를 검토용 상태로 만들고, Telegram에 제목·점수·미리보기 링크·보류 버튼을 보내줘. 내가 “제목을 10자 줄여줘”라고 썼을 때 수정본과 새 점수를 보내는지 확인해줘. 모든 테스트가 끝난 뒤에는 테스트 PR과 초안을 정리하거나 보류 상태로 남기고, 실제 main에는 발행하지 마.</pre></div><label class="done"><input type="checkbox"><span>테스트 초안을 보류 상태까지 확인했어요</span></label></div>
+      </article>
+    </section>
+
+    <section class="finish"><p class="eyebrow">완료 체크</p><h2><span id="count">0</span> / 6 단계 완료</h2><p>체크는 이 브라우저에만 저장됩니다. 키와 개인 정보는 저장하지 않습니다.</p><button id="reset" class="reset">체크 초기화</button></section>
+  </main>
+  <footer><a class="brand" href="../../index.html">실행DAY<span>·</span> KIT</a><p>브라우저로 안내하고, 비밀값은 대표님만 입력합니다.</p></footer>
+  <script src="kit.js"></script>
+</body>
+</html>

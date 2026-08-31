@@ -21,3 +21,7 @@
 4. 다시 `/status`를 보내면 연결 확인 메시지가 옵니다.
 
 웹훅은 Telegram이 보내는 비밀 헤더를 확인하며, 등록된 관리자 Chat ID 외의 메시지는 처리하지 않습니다.
+
+## 대표님 공유용 설정 킷
+
+터미널 없이 Chrome과 Codex로 편집장 자동발행을 설정하는 가이드는 `kit/editorial-automation/`에 있습니다. 배포 후 `/kit/editorial-automation/`에서 열고, 각 단계의 복사 프롬프트를 Codex에 붙여넣어 진행합니다.
