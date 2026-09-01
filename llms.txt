@@ -17,6 +17,7 @@ B01호가 직접 구매해 작은 공간에서 확인한 인테리어·생활 �
 - [연락하기](https://runday0829.vercel.app/contact.html): 이메일, 인스타그램, 스토어 링크
 
 ## 이야기(블로그)
+- [좁은 현관에 신발장 최소 폭은 얼마일까요?](https://runday0829.vercel.app/story/shoe-cabinet-minimum-width.html): 한 숫자로 정해진 '최소 폭'은 없습니다. 현관문 움직임·실사용 벽폭·신발장 문 열리는 공간을 직접 확인해 결정해야 합니다.
 
 - [신발장 폭은 어떻게 재면 되나요?](https://runday0829.vercel.app/story/measure-shoe-cabinet-width.html): 좁은 현관에서 신발장을 고르기 전, 벽면과 문이 열리는 자리, 실제 통로를 순서대로 재는 방법입니다.
 - [내 것이 없어서, 시작해봤습니다](https://runday0829.vercel.app/story/b01-start.html): 본가의 방을 둘러보던 날, 독립을 결심하고 B01호에서 기록을 시작하게 된 이유입니다.
