@@ -1,1 +1,7 @@
 assets/raw.mp4
+local-console/
+.editorial-console/
+AGENTS.md
+story/drafts/
+
+.env*

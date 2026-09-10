@@ -1,0 +1,13 @@
+{
+  "name": "b01-editorial-console",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test test.mjs workflow.test.mjs reading.test.mjs notifications.test.mjs cloud-api.test.mjs",
+    "check": "node --check server.mjs && node --check workflow.mjs && node --check public/app.js && node --check public/workflow.js && node --check cli.mjs && node --check reading.mjs && node --check notifications.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

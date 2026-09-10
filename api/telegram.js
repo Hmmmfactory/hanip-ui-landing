@@ -6,11 +6,7 @@ function latestStoryMessage() {
   if (!latest) return '아직 확인할 글이 없습니다.';
   const siteUrl = (process.env.SITE_URL || 'https://runday0829.vercel.app').replace(/\/$/, '');
   const previewUrl = latest.url ? `${siteUrl}/story/${latest.url}` : `${siteUrl}/story/`;
-  return editorialDraftMessage({
-    title: latest.title,
-    body: latest.body,
-    previewUrl
-  });
+  return `[최근 등록 글]\n${latest.title}\n\n[글 요약]\n${latest.summary || latest.description || String(latest.body || '').slice(0,500)}\n\n[글 링크]\n${previewUrl}\n\n이 응답은 등록 목록 기준이며, 로컬 편집실의 검토·예약 상태와 연동되지 않습니다.`;
 }
 
 module.exports = async (req, res) => {
@@ -32,10 +28,12 @@ module.exports = async (req, res) => {
   if (chatId !== String(adminChatId)) return res.status(200).json({ ok: true });
 
   const command = message.text.trim().toLowerCase();
-  if (command === '/latest' || command === '/draft' || command === '최신글') {
+  if (command === '/latest' || command === '최신글') {
     await reply(chatId, latestStoryMessage());
+  } else if (command === '/draft') {
+    await reply(chatId, '로컬 편집실 초안은 이 봇과 동기화되지 않습니다. 편집실의 주간 발행 계획에서 검토해주세요. /latest는 최근 등록 글을 보여줍니다.');
   } else if (command === '/start' || command === '/status') {
-    await reply(chatId, 'B01호 편집장이 연결되었습니다.\n\n/latest 또는 /draft: 최신 글 전문과 미리보기 링크\n\n자동 초안 알림은 점수·분석·글 전문·미리보기 링크를 한 묶음으로 보내도록 연결할 수 있습니다.');
+    await reply(chatId, 'B01호 편집장이 연결되었습니다.\n\n/latest: 최근 등록 글 요약과 링크\n/draft: 로컬 초안 확인 안내\n\n이 원격 봇에는 예약 자동발행 기능이 없습니다. 예약과 발행 완료 알림은 로컬 편집실에서 설정하고 확인하세요.');
   }
 
   return res.status(200).json({ ok: true });

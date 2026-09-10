@@ -2,4 +2,11 @@
 .env.local
 .env.*.local
 .DS_Store
+.editorial-console/
 assets/raw.mp4
+
+# Private local configuration and unpublished manuscripts
+.env
+.env.*
+!.env.example
+story/drafts/
