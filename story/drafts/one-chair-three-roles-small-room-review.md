@@ -59,4 +59,3 @@
 ## 미리보기 방법
 
 GitHub의 **Files changed**에서 `story/drafts/one-chair-three-roles-small-room.md`를 Markdown으로 확인합니다. 공개 HTML이 아니므로 사이트 목록이나 배포 미리보기에는 노출되지 않습니다.
-
